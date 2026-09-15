@@ -11,5 +11,11 @@ class BowlingGameTest {
         BowlingGame game = new BowlingGame();
         assertDoesNotThrow(() -> game.roll(0));
     }
+    @Test
+    @DisplayName("A2 - roll(-1) lanza IllegalArgumentException")
+    void rollNegativePins_shouldThrowException() {
+        BowlingGame game = new BowlingGame();
+        assertThrows(IllegalArgumentException.class, () -> game.roll(-1));
+    }
 
 }
