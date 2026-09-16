@@ -45,6 +45,15 @@ public class BowlingGame {
         } else { // Primer tiro (normal)
             current.addRoll(pins);
         }
+        if (currentFrame == 9) { // Frame 10
+            current.setType(FrameType.TENTH);
+            current.addRoll(pins);
+            if (current.getRolls().size() == 3 ||
+                    (current.getRolls().size() == 2 && current.getRolls().get(0) + current.getRolls().get(1) < 10)) {
+                currentFrame++;
+            }
+            return;
+        }
     }
 
     private Frame getCurrentOrCreateFrame() {
