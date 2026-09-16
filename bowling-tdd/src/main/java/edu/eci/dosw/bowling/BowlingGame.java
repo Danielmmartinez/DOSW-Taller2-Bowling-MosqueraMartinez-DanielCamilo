@@ -5,21 +5,18 @@ import java.util.List;
 
 /**
  * Motor de un juego de Bowling para un jugador.
- * Un juego tiene 10 frames.
+ * Un juego tiene exactamente 10 frames.
  */
 public class BowlingGame {
 
     private final List<Frame> frames;
     private int currentFrame;
-    private int firstRollInFrame = -1;
 
     public BowlingGame() {
         this.frames = new ArrayList<>();
         this.currentFrame = 0;
     }
 
-    /** Registra pinos derribados. Lanza IllegalArgumentException si pines < 0 o pines > 10.
-     *  Lanza IllegalStateException si el juego ya termino. */
     public void roll(int pins) {
         if (isComplete()) {
             throw new IllegalStateException("El juego ya está completo");
@@ -28,32 +25,53 @@ public class BowlingGame {
 
         Frame current = getCurrentOrCreateFrame();
 
-        if (pins == 10 && current.getRolls().isEmpty()) { // Strike
-            current.addRoll(pins);
-            current.setType(FrameType.STRIKE);
-            currentFrame++;
-        } else if (current.getRolls().size() == 1) { // Segundo tiro
-            int sum = current.getRolls().get(0) + pins;
-            if (sum > 10) {
-                throw new IllegalArgumentException("La suma de pines en el frame no puede superar 10");
-            }
-            current.addRoll(pins);
-            if (sum == 10) {
-                current.setType(FrameType.SPARE);
-            }
-            currentFrame++;
-        } else { // Primer tiro (normal)
-            current.addRoll(pins);
+        if (currentFrame < 9) {
+            handleStandardFrame(current, pins);
+        } else {
+            handleTenthFrame(current, pins);
         }
-        if (currentFrame == 9) { // Frame 10
-            current.setType(FrameType.TENTH);
-            current.addRoll(pins);
-            if (current.getRolls().size() == 3 ||
-                    (current.getRolls().size() == 2 && current.getRolls().get(0) + current.getRolls().get(1) < 10)) {
+    }
+
+    private void handleStandardFrame(Frame frame, int pins) {
+        List<Integer> rolls = frame.getRolls();
+        if (rolls.isEmpty()) {
+            frame.addRoll(pins);
+            if (pins == 10) {
+                frame.setType(FrameType.STRIKE);
                 currentFrame++;
             }
-            return;
+        } else {
+            if (rolls.get(0) + pins > 10) {
+                throw new IllegalArgumentException("La suma de pines en el frame no puede superar 10");
+            }
+            frame.addRoll(pins);
+            if (rolls.get(0) + pins == 10) {
+                frame.setType(FrameType.SPARE);
+            }
+            currentFrame++;
         }
+    }
+
+    private void handleTenthFrame(Frame frame, int pins) {
+        frame.setType(FrameType.TENTH);
+        List<Integer> rolls = frame.getRolls();
+
+        if (rolls.size() == 1 && rolls.get(0) < 10 && rolls.get(0) + pins > 10) {
+            throw new IllegalArgumentException("La suma de los dos primeros tiros no puede superar 10");
+        }
+
+        frame.addRoll(pins);
+        if (isTenthFrameComplete(frame)) {
+            currentFrame++;
+        }
+    }
+
+    private boolean isTenthFrameComplete(Frame frame) {
+        List<Integer> rolls = frame.getRolls();
+        if (rolls.size() == 3) {
+            return true;
+        }
+        return rolls.size() == 2 && (rolls.get(0) + rolls.get(1) < 10);
     }
 
     private Frame getCurrentOrCreateFrame() {
@@ -63,22 +81,21 @@ public class BowlingGame {
         return frames.get(currentFrame);
     }
 
-    /** true cuando los 10 frames han sido completados. */
-    public boolean isComplete() {
-        return frames.size() == 10 && (
-                frames.get(9).getType() == FrameType.STRIKE || frames.get(9).getRolls().size() == 2
-        );
-    }
     private void validatePins(int pins) {
         if (pins < 0 || pins > 10) {
             throw new IllegalArgumentException("Los pines deben estar entre 0 y 10");
         }
     }
 
-    /** Puntaje total. Lanza IllegalStateException si el juego no esta completo. */
+    public boolean isComplete() {
+        return frames.size() == 10 && isTenthFrameComplete(frames.get(9));
+    }
+
     public int score() {
-        // TODO: implementar con TDD
         return 0;
     }
-    public List<Frame> getFrames() { return List.copyOf(frames); }
+
+    public List<Frame> getFrames() {
+        return List.copyOf(frames);
+    }
 }
