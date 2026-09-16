@@ -34,6 +34,17 @@ class BowlingScorerTest {
         assertEquals(16, game.score());
     }
     @Test
+    @DisplayName("B4 - Strike en frame 1 seguido de roll(4) y roll(3) suma 17 en frame 1")
+    void strikeBonus_addsNextTwoRolls() {
+        BowlingGame game = new BowlingGame();
+        game.roll(10); // Frame 1: Strike
+        game.roll(4); game.roll(3); // Frame 2: 4 + 3
+        for (int i = 0; i < 16; i++) game.roll(0); // Resto 0
+
+        // Frame 1 (10 + 4 + 3) + Frame 2 (7) = 24
+        assertEquals(24, game.score());
+    }
+    @Test
     @DisplayName("B6 - Todos spares con ultimo tiro a 5 score == 150")
     void allSpares_scores150() {
         BowlingGame game = new BowlingGame();
@@ -43,6 +54,15 @@ class BowlingScorerTest {
         game.roll(5); // Tiro bonus frame 10
 
         assertEquals(150, game.score());
+    }
+    @Test
+    @DisplayName("B7 - Juego perfecto - 12 strikes score == 300")
+    void perfectGame_scores300() {
+        BowlingGame game = new BowlingGame();
+        for (int i = 0; i < 12; i++) {
+            game.roll(10);
+        }
+        assertEquals(300, game.score());
     }
     @Test
     @DisplayName("B8 - score() antes de completar el juego lanza IllegalStateException")
