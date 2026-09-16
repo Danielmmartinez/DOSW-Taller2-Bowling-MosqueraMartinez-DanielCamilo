@@ -45,6 +45,17 @@ class BowlingScorerTest {
         assertEquals(24, game.score());
     }
     @Test
+    @DisplayName("B5 - Dos strikes consecutivos mas roll(5) calcula bonos correctamente")
+    void consecutiveStrikes_scoresCorrectly() {
+        BowlingGame game = new BowlingGame();
+        game.roll(10); // Frame 1: Strike (10 + 10 + 5 = 25)
+        game.roll(10); // Frame 2: Strike (10 + 5 + 0 = 15)
+        game.roll(5); game.roll(0); // Frame 3: 5
+        for (int i = 0; i < 14; i++) game.roll(0); // Resto a 0
+
+        assertEquals(45, game.score());
+    }
+    @Test
     @DisplayName("B6 - Todos spares con ultimo tiro a 5 score == 150")
     void allSpares_scores150() {
         BowlingGame game = new BowlingGame();
