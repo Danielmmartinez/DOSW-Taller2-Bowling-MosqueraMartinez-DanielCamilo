@@ -20,11 +20,8 @@ public class BowlingGame {
     /** Registra pinos derribados. Lanza IllegalArgumentException si pines < 0 o pines > 10.
      *  Lanza IllegalStateException si el juego ya termino. */
     public void roll(int pins) {
-        if (pins < 0) {
-            throw new IllegalArgumentException("El número de pinos no puede ser negativo");
-        }
-        if (pins > 10) {
-            throw new IllegalAccessException("El número no puede ser mayor a 10");
+        if (pins < 0 || pins > 10) {
+            throw new IllegalArgumentException("Los pines deben estar entre 0 y 10");
         }
     }
 
