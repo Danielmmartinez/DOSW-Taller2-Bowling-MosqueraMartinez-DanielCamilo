@@ -57,5 +57,18 @@ class BowlingGameTest {
 
         assertEquals(FrameType.SPARE, game.getFrames().get(0).getType());
     }
+    @Test
+    @DisplayName("A8 - Frame 10 con strike acepta hasta 3 tiros")
+    void tenthFrameWithStrike_acceptsThreeRolls() {
+        BowlingGame game = new BowlingGame();
+        for (int i = 0; i < 18; i++) { // 9 frames normales
+            game.roll(0);
+        }
+        assertDoesNotThrow(() -> {
+            game.roll(10); // Tiro 1 (Strike)
+            game.roll(10); // Tiro 2 (Bono)
+            game.roll(10); // Tiro 3 (Bono)
+        });
+    }
 
 }
