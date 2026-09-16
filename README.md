@@ -63,9 +63,9 @@ excepciones de rango.
 ## 6. Pull Requests
 Los cambios se integraron mediante Pull Requests sin realizar commits directos a las ramas principales[cite: 1].
 
-| Enlace al PR | Fecha de Merge | Módulo que cubre                           |
-| :--- |:---------------|:-------------------------------------------|
-| [PR #1: Feature Bowling TDD]([https://github.com/TU-USUARIO/DOSW-Taller2-Bowling-.../pull/1](https://github.com/Danielmmartinez/DOSW-Taller2-Bowling-MosqueraMartinez-DanielCamilo/pull/1)) | 15/09/26       | Módulos A, B y C (Game, Scorer, isComplete)|
+| Enlace al PR                                                                                                               | Fecha de Merge | Módulo que cubre                           |
+|:---------------------------------------------------------------------------------------------------------------------------|:---------------|:-------------------------------------------|
+| [PR #1: Feature Bowling TDD](https://github.com/Danielmmartinez/DOSW-Taller2-Bowling-MosqueraMartinez-DanielCamilo/pull/1) | 15/09/26       | Módulos A, B y C (Game, Scorer, isComplete)|
 
 ---
 
