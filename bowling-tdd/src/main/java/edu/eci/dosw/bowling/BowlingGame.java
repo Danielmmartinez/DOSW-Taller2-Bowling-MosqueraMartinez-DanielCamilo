@@ -11,6 +11,7 @@ public class BowlingGame {
 
     private final List<Frame> frames;
     private int currentFrame;
+    private final BowlingScorer scorer = new BowlingScorer();
 
     public BowlingGame() {
         this.frames = new ArrayList<>();
@@ -92,7 +93,10 @@ public class BowlingGame {
     }
 
     public int score() {
-        return 0;
+        if (!isComplete()) {
+            throw new IllegalStateException("El juego no está completo");
+        }
+        return scorer.calculate(frames);
     }
 
     public List<Frame> getFrames() {
