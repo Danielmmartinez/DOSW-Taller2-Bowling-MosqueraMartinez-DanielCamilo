@@ -28,9 +28,9 @@ public class BowlingGame {
             if (firstRollInFrame + pins > 10) {
                 throw new IllegalArgumentException("La suma de pines en el frame no puede superar 10");
             }
-            firstRollInFrame = -1; // Completa el frame
+            firstRollInFrame = -1;
         } else {
-            firstRollInFrame = pins; // Guarda el primer tiro
+            firstRollInFrame = pins;
         }
     }
 
