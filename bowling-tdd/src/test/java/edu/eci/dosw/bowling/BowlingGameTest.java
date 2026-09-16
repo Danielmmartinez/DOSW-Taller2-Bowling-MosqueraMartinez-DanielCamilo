@@ -39,5 +39,14 @@ class BowlingGameTest {
         }
         assertThrows(IllegalStateException.class, () -> game.roll(0));
     }
+    @Test
+    @DisplayName("A6 - roll(10) detecta strike, marca FrameType.STRIKE y avanza frame")
+    void strikeRoll_marksFrameAsStrikeAndAdvances() {
+        BowlingGame game = new BowlingGame();
+        game.roll(10);
+
+        assertFalse(game.getFrames().isEmpty());
+        assertEquals(FrameType.STRIKE, game.getFrames().get(0).getType());
+    }
 
 }
