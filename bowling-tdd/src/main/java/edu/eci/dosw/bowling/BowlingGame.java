@@ -23,6 +23,9 @@ public class BowlingGame {
         if (pins < 0) {
             throw new IllegalArgumentException("El número de pinos no puede ser negativo");
         }
+        if (pins > 10) {
+            throw new IllegalAccessException("El número no puede ser mayor a 10");
+        }
     }
 
     /** Puntaje total. Lanza IllegalStateException si el juego no esta completo. */
