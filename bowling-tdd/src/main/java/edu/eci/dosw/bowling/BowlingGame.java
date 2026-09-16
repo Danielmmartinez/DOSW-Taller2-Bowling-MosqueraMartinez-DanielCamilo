@@ -11,6 +11,7 @@ public class BowlingGame {
 
     private final List<Frame> frames;
     private int currentFrame;
+    private int firstRollInFrame = -1;
 
     public BowlingGame() {
         this.frames = new ArrayList<>();
@@ -22,6 +23,14 @@ public class BowlingGame {
     public void roll(int pins) {
         if (pins < 0 || pins > 10) {
             throw new IllegalArgumentException("Los pines deben estar entre 0 y 10");
+        }
+        if (firstRollInFrame != -1) {
+            if (firstRollInFrame + pins > 10) {
+                throw new IllegalArgumentException("La suma de pines en el frame no puede superar 10");
+            }
+            firstRollInFrame = -1; // Completa el frame
+        } else {
+            firstRollInFrame = pins; // Guarda el primer tiro
         }
     }
 
