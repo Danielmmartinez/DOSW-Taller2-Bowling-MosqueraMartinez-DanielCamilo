@@ -33,10 +33,14 @@ public class BowlingGame {
             current.setType(FrameType.STRIKE);
             currentFrame++;
         } else if (current.getRolls().size() == 1) { // Segundo tiro
-            if (current.getRolls().get(0) + pins > 10) {
+            int sum = current.getRolls().get(0) + pins;
+            if (sum > 10) {
                 throw new IllegalArgumentException("La suma de pines en el frame no puede superar 10");
             }
             current.addRoll(pins);
+            if (sum == 10) {
+                current.setType(FrameType.SPARE);
+            }
             currentFrame++;
         } else { // Primer tiro (normal)
             current.addRoll(pins);
